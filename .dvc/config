@@ -1,2 +1,4 @@
+[core]
+    remote = origin
 ['remote "origin"']
     url = https://dagshub.com/Sharanya-0224/Climate-Change-Awareness-Dashboard.dvc
