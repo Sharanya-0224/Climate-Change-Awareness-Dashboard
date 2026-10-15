@@ -1,0 +1,20 @@
+schema: '2.0'
+stages:
+  build_dataset:
+    cmd: python3 src/data/build_dataset.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 10d3290f571f88101db050f77ee49976.dir
+      size: 554871
+      nfiles: 14
+    - path: src/data/build_dataset.py
+      hash: md5
+      md5: b2db2a12046eabb86a584da30cd248fe
+      size: 8340
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: cce9d3abdc987131a0090490cd93b913.dir
+      size: 41492
+      nfiles: 3
