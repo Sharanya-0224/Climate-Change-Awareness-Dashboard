@@ -1,0 +1,32 @@
+dataset,variable,rows,missing_count,missing_percent,available_count
+Annual original,temp_anomaly,146,0,0.0,146
+Annual original,co2,146,0,0.0,146
+Annual original,sunspots,146,0,0.0,146
+Annual original,nino34,146,70,47.95,76
+Annual original,ch4,146,104,71.23,42
+Annual original,n2o,146,121,82.88,25
+Annual reconstructed,temp_anomaly,146,0,0.0,146
+Annual reconstructed,co2,146,0,0.0,146
+Annual reconstructed,sunspots,146,0,0.0,146
+Annual reconstructed,nino34,146,70,47.95,76
+Annual reconstructed,ch4,146,0,0.0,146
+Annual reconstructed,n2o,146,0,0.0,146
+Full drivers original,co2,176,0,0.0,176
+Full drivers original,sunspots,176,0,0.0,176
+Full drivers original,nino34,176,100,56.82,76
+Full drivers original,ch4,176,134,76.14,42
+Full drivers original,n2o,176,151,85.8,25
+Full drivers reconstructed,co2,176,0,0.0,176
+Full drivers reconstructed,sunspots,176,0,0.0,176
+Full drivers reconstructed,nino34,176,100,56.82,76
+Full drivers reconstructed,ch4,176,30,17.05,146
+Full drivers reconstructed,n2o,176,30,17.05,146
+Monthly original,temp_anomaly,822,0,0.0,822
+Monthly original,co2_monthly,822,0,0.0,822
+Monthly original,co2_trend,822,0,0.0,822
+Monthly original,sunspots,822,0,0.0,822
+Monthly original,nino34,822,2,0.24,820
+Monthly original,ch4,822,306,37.23,516
+Monthly original,ch4_trend,822,306,37.23,516
+Monthly original,n2o,822,516,62.77,306
+Monthly original,n2o_trend,822,516,62.77,306

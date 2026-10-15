@@ -1,0 +1,5 @@
+path,exists,bytes,sha256_current
+/Users/sarachhabra/Climate-Change-Awareness-Dashboard/data/processed/climate_annual.csv,True,6820,2a36f88ba5ed69d7deefe3a7493cfbd01f74329eb2ef4f97a065792681a85010
+/Users/sarachhabra/Climate-Change-Awareness-Dashboard/data/processed/climate_annual_reconstructed.csv,True,47681,3be055812386edaa16b3885a3f226f83adad99f1c6e02d5f0c63070f7890c3d2
+/Users/sarachhabra/Climate-Change-Awareness-Dashboard/data/processed/drivers_annual_full_reconstructed.csv,True,49964,bb1c1359c705cffcb8a4c6386fe22fe127e168c5626149a83eef8f451c22758e
+/Users/sarachhabra/Climate-Change-Awareness-Dashboard/data/processed/ghg_annual_reconstruction_ledger.csv,True,31050,995733bddf0cac0abf144624c668eaa999fa13005acd1a1db75e02bce89ef853

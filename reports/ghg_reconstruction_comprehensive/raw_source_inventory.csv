@@ -1,0 +1,15 @@
+file,bytes,suffix
+data/raw/GLB.Ts+dSST.csv,12887,.csv
+data/raw/SN_m_tot_V2.0.csv,126654,.csv
+data/raw/SN_y_tot_V2.0.csv,9454,.csv
+data/raw/ch4_annmean_gl.txt,3104,.txt
+data/raw/ch4_mm_gl.txt,46074,.txt
+data/raw/co2_annmean_mlo.txt,3696,.txt
+data/raw/co2_mm_mlo.txt,59608,.txt
+data/raw/detrend.nino34.ascii.txt,30328,.txt
+data/raw/ghg-concentrations_fig-2.csv,48449,.csv
+data/raw/ghg-concentrations_fig-3.csv,19443,.csv
+data/raw/global-atmospheric-co2-concentration.csv,22372,.csv
+data/raw/n2o_annmean_gl.txt,2679,.txt
+data/raw/n2o_mm_gl.txt,28224,.txt
+data/raw/smoothedco2.txt,141899,.txt

@@ -1,0 +1,6 @@
+outs:
+- md5: 19059259eec34f90552e34b52193f398.dir
+  size: 309766
+  nfiles: 8
+  hash: md5
+  path: processed_eda_checkpoint

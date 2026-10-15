@@ -1,0 +1,9 @@
+variable,block_length_months,blocks_tested,n_hidden_months_scored,MAE,RMSE,bias,validation_scope
+ch4,1,200,200,1.2449348812170102,1.60202383240263,-0.0006441851903252882,Non-overlapping contiguous blocks within observed monthly record only
+ch4,3,171,513,1.8487313561636287,2.369089886346798,-0.07947005219950652,Non-overlapping contiguous blocks within observed monthly record only
+ch4,6,85,510,4.020948063227292,5.160067469794796,-2.9449410896256727,Non-overlapping contiguous blocks within observed monthly record only
+ch4,12,42,504,7.860654955127817,9.001427647093761,-7.403359659249922,Non-overlapping contiguous blocks within observed monthly record only
+n2o,1,200,200,0.02286687413170057,0.028783863433216476,0.0004345531166086403,Non-overlapping contiguous blocks within observed monthly record only
+n2o,3,101,303,0.06035998367021084,0.07269213558642638,0.0013553950720580606,Non-overlapping contiguous blocks within observed monthly record only
+n2o,6,50,300,0.06763320344768733,0.08395693220727485,0.005217102193876144,Non-overlapping contiguous blocks within observed monthly record only
+n2o,12,25,300,0.18955897598995988,0.24192316178181025,0.17938815866473382,Non-overlapping contiguous blocks within observed monthly record only

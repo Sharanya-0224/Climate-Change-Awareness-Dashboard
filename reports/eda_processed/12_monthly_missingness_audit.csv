@@ -1,0 +1,19 @@
+dataset,variable,rows,missing_count,missing_percent,available_count
+Monthly original,temp_anomaly,822,0,0.0,822
+Monthly original,co2_monthly,822,0,0.0,822
+Monthly original,co2_trend,822,0,0.0,822
+Monthly original,sunspots,822,0,0.0,822
+Monthly original,nino34,822,2,0.24,820
+Monthly original,ch4,822,306,37.23,516
+Monthly original,n2o,822,516,62.77,306
+Monthly original,ch4_trend,822,306,37.23,516
+Monthly original,n2o_trend,822,516,62.77,306
+Monthly reconstructed,temp_anomaly,822,0,0.0,822
+Monthly reconstructed,co2_monthly,822,0,0.0,822
+Monthly reconstructed,co2_trend,822,0,0.0,822
+Monthly reconstructed,sunspots,822,0,0.0,822
+Monthly reconstructed,nino34,822,2,0.24,820
+Monthly reconstructed,ch4,822,2,0.24,820
+Monthly reconstructed,n2o,822,2,0.24,820
+Monthly reconstructed,ch4_trend,822,306,37.23,516
+Monthly reconstructed,n2o_trend,822,516,62.77,306

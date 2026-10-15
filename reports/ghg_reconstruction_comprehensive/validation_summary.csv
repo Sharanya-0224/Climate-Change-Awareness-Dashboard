@@ -1,0 +1,3 @@
+gas,annual_rows,anchor_count,synthetic_count,anchor_max_abs_error,LOO_MAE,LOO_RMSE,LOO_R2,original_overlap_MAE,largest_anchor_gap_years
+ch4,146,66,80,0.0,3.095839486786298,4.6774767833009845,0.9998515743944565,0.0,27.0
+n2o,146,26,120,0.0,0.08628846153844923,0.10267232351406251,0.9997520446646456,0.0,64.0

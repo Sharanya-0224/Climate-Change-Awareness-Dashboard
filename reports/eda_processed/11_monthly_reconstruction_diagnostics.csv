@@ -1,0 +1,11 @@
+variable,test,block_length_months,blocks_tested,n_months_scored,MAE,RMSE,bias,interpretation
+ch4,local_monthly_interpolation,1.0,514.0,514,1.220309240227059,1.529895446697622,-0.004519350111302802,Tests local interpolation inside the observed monthly period only
+ch4,local_monthly_interpolation,3.0,171.0,513,1.8487313561636287,2.369089886346798,-0.07947005219950652,Tests local interpolation inside the observed monthly period only
+ch4,local_monthly_interpolation,6.0,85.0,510,4.020948063227292,5.160067469794796,-2.9449410896256727,Tests local interpolation inside the observed monthly period only
+ch4,local_monthly_interpolation,12.0,42.0,504,7.860654955127817,9.001427647093761,-7.403359659249922,Tests local interpolation inside the observed monthly period only
+ch4,annual_baseline_overlap_diagnostic,,,504,3.7996560846560716,4.665452642561109,-0.14891313932981792,Diagnostic only: monthly points are compared with a smooth annual baseline; not independent validation and not validation of pre-observation history
+n2o,local_monthly_interpolation,1.0,304.0,304,0.021652864404340694,0.02735894049669526,0.00011174156564084264,Tests local interpolation inside the observed monthly period only
+n2o,local_monthly_interpolation,3.0,101.0,303,0.06035998367021084,0.07269213558642638,0.0013553950720580606,Tests local interpolation inside the observed monthly period only
+n2o,local_monthly_interpolation,6.0,50.0,300,0.06763320344768733,0.08395693220727485,0.005217102193876144,Tests local interpolation inside the observed monthly period only
+n2o,local_monthly_interpolation,12.0,25.0,300,0.18955897598995988,0.24192316178181025,0.17938815866473382,Tests local interpolation inside the observed monthly period only
+n2o,annual_baseline_overlap_diagnostic,,,294,0.12680431547619012,0.15279722665749546,-0.005805165816327281,Diagnostic only: monthly points are compared with a smooth annual baseline; not independent validation and not validation of pre-observation history
