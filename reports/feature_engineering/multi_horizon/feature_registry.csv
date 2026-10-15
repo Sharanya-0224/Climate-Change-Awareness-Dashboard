@@ -1,0 +1,28 @@
+feature,definition,scientific_motivation,scenario_capable,missing_data_limitation,status_and_use
+co2,annual CO2 (ppm) at year t,main greenhouse-gas driver,True,complete in annual table,implemented; used in transformation test
+ln_co2,ln(co2),warming responds roughly to log(CO2),True,none,implemented; EXACT linear transform of co2_forcing -> identical predictions for linear models; diagnostic only
+co2_forcing,5.35*ln(co2/280),CO2-only radiative-forcing PROXY (not total forcing),True,none,implemented; BASE feature of every comparison
+co2_roll5,mean(co2[t-4..t]),slow (ocean-lagged) response,True,first 4 rows unless pre-history available,implemented; ablation
+co2_roll10,mean(co2[t-9..t]),"slower response, planned in handoff",True,first 9 rows unless pre-history available,implemented; ablation
+co2_growth_1y,co2[t]-co2[t-1],speed of increase (planned CO2 growth),True,first row,implemented; ablation
+co2_growth_roll5,mean of co2_growth_1y over t-4..t,smoothed growth rate,True,first 5 rows unless pre-history,implemented; ablation
+co2_std5,"std(co2[t-4..t], ddof=1)",user-requested; spread of CO2 in window,True,first 4 rows unless pre-history,implemented; ablation (suspected to duplicate growth)
+co2_forcing_change_5y,forcing[t]-forcing[t-5],5-year forcing change,True,first 5 rows unless pre-history,implemented; ablation
+ch4,observed annual CH4,second greenhouse gas,True,observed-only; synthetic/filled values masked -> late start,implemented; ablation on reduced rows
+n2o,observed annual N2O,third greenhouse gas,True,observed-only; very short record,implemented; ablation on reduced rows
+sunspots,annual sunspot number at t,solar variability,False,none; FUTURE values unknown in scenarios,implemented; historical experiment only
+sunspots_roll11,mean(sunspots[t-10..t]),solar-cycle smoothing,False,first 10 rows,implemented; historical experiment only
+nino34,annual Nino 3.4 at t,ENSO (short-term variability),False,~half of record missing; future unknown,implemented; historical experiment only
+temp_at_origin,temp_anomaly[t],persistence of the anomaly,False,none,one-year experiment ONLY; banned when h=0 (it is the target)
+temp_lag1,temp_anomaly[t-1],recent temperature memory,False,first row,one-year experiment ONLY
+temp_roll5,mean(temp_anomaly[t-4..t]),smoothed temperature level,False,first 4 rows,one-year experiment ONLY
+year_index,year - first_year,explicit time trend,False,none,one-year experiment ONLY; would make scenarios follow a straight line in time
+temp_roll3,mean(temp[t-2..t]),-,False,-,"NOT BUILT: exact average of temp_at_origin, temp_lag1, temp_lag2"
+*_change_1y for every variable,x[t]-x[t-1],-,False,-,NOT BUILT: exact difference of existing columns (zero new information)
+ch4/n2o lags and 1-year changes,-,-,False,-,NOT BUILT: on observed-only series they are short and noisy; on reconstructed series they are interpolation artefacts
+ch4_is_synthetic / n2o_is_synthetic,provenance flag,-,False,-,NOT A PREDICTOR: mostly marks 'before ~1984' = duplicate of the time trend; used only to mask values
+rolling mean/std for every variable,-,-,False,-,NOT BUILT: ~145 rows cannot support dozens of near-duplicate predictors
+co2_growth rolling std,-,-,False,-,NOT BUILT: no defensible reason beyond co2_std5
+volcanic/aerosol forcing,-,-,False,-,"EXCLUDED: no complete global series (Phase 1 limitation, affects every result)"
+"sea level, sea ice, other temperature datasets",-,-,False,-,EXCLUDED: consequences/alternative measures of the target -> leakage
+emissions,-,-,False,-,EXCLUDED: would need a carbon-cycle model; we use concentrations

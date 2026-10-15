@@ -1,0 +1,10 @@
+item,value
+prediction_target,next-year global temperature anomaly
+forecast_horizon_years,1
+source_rows,146
+supervised_rows_with_known_target,145
+forecast_origin_start,1880
+forecast_origin_end,2024
+candidate_feature_count,36
+feature_missing_values_are_imputed,False
+synthetic_gas_flags_available,True

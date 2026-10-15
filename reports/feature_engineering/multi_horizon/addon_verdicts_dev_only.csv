@@ -1,0 +1,12 @@
+group,feature,verdict,horizons_used,mean_rel_RMSE_change,horizons_improved
+C_co2_roll5,co2_roll5,hurt,3,0.09364156793067875,1
+C_co2_roll10,co2_roll10,hurt,3,0.022518962288032223,2
+C_co2_growth_1y,co2_growth_1y,hurt,3,0.34428062040459273,0
+C_co2_growth_roll5,co2_growth_roll5,hurt,3,0.19974062009754442,1
+C_co2_std5,co2_std5,hurt,3,0.2446677604213642,0
+C_co2_forcing_change_5y,co2_forcing_change_5y,hurt,3,0.1984482761977512,0
+D_ch4,ch4,insufficient data,0,,0
+D_n2o,n2o,insufficient data,0,,0
+E_sunspots,sunspots,no meaningful difference,3,-0.012272521024241737,3
+E_sunspots_roll11,sunspots_roll11,hurt,3,0.20907478717892017,0
+E_nino34,nino34,hurt,3,0.32183740807111527,1
