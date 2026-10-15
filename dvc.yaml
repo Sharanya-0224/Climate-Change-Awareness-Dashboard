@@ -1,0 +1,8 @@
+stages:
+  build_dataset:
+    cmd: python3 src/data/build_dataset.py
+    deps:
+    - data/raw
+    - src/data/build_dataset.py
+    outs:
+    - data/processed

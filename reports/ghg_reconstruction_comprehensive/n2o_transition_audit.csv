@@ -1,0 +1,5 @@
+gas,year,n2o_reconstructed,n2o_data_status,previous_status,year_step,annual_change,annual_rate
+n2o,1880,275.6551724137931,synthetic_linear_interpolation,,,,
+n2o,1937,284.5,EPA_EPICA_historical_anchor,synthetic_linear_interpolation,1.0,0.1551724137930819,0.1551724137930819
+n2o,1938,284.9978125,synthetic_linear_interpolation,EPA_EPICA_historical_anchor,1.0,0.4978125000000091,0.4978125000000091
+n2o,2001,316.36,NOAA_global_annual_observation,synthetic_linear_interpolation,1.0,0.4978125000000091,0.4978125000000091
