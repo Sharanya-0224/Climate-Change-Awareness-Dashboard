@@ -1,0 +1,16 @@
+group,horizon,reason
+D_ch4,10,only 32 eligible rows - too few for chronological folds
+D_ch4,15,only 27 eligible rows - too few for chronological folds
+D_ch4,20,only 22 eligible rows - too few for chronological folds
+D_ch4,25,only 17 eligible rows - too few for chronological folds
+D_ch4,30,only 12 eligible rows - too few for chronological folds
+D_n2o,0,only 25 eligible rows - too few for chronological folds
+D_n2o,1,only 24 eligible rows - too few for chronological folds
+D_n2o,5,only 20 eligible rows - too few for chronological folds
+D_n2o,10,only 15 eligible rows - too few for chronological folds
+D_n2o,15,only 10 eligible rows - too few for chronological folds
+D_n2o,20,only 5 eligible rows - too few for chronological folds
+D_n2o,25,only 0 eligible rows - too few for chronological folds
+D_n2o,30,only 0 eligible rows - too few for chronological folds
+E_nino34,25,only 51 eligible rows - too few for chronological folds
+E_nino34,30,only 46 eligible rows - too few for chronological folds

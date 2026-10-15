@@ -1,0 +1,77 @@
+{
+  "notebook": "04_feature_engineering_multi_horizon",
+  "input_file": "climate_annual.csv",
+  "using_reconstructed_fallback": false,
+  "input_sha256": {
+    "climate_annual.csv": "2a36f88ba5ed69d7deefe3a7493cfbd01f74329eb2ef4f97a065792681a85010",
+    "climate_annual_features_full.csv": "343b727190d9b7139ea033bbee5945d6b0b73a3f309575371c36227dc44d4d86",
+    "climate_annual_features_next_year.csv": "5326c11042d7bb26146ee13b850923946e6e5ef00a3ad0d5cec166b161f03225",
+    "climate_annual_reconstructed.csv": "3be055812386edaa16b3885a3f226f83adad99f1c6e02d5f0c63070f7890c3d2",
+    "climate_monthly.csv": "4782c213f84461a90c009e583f244f08469adba2593f3ecc74b0b1f8b3884d15",
+    "climate_monthly_reconstructed.csv": "ca439c815d1ce46ac4cbfba960d64a113280985e4c4b29e56eef3dcc5de81bb0",
+    "co2_annual_full.csv": "a444da39e08cee3ac324896c212ed65ad94a650606c152777be676ad07c18a5f",
+    "drivers_annual_full.csv": "e508e3f2ff717e26b78318bbf9e0b878730f6227092a42871ce16d080c89285d",
+    "drivers_annual_full_reconstructed.csv": "bb1c1359c705cffcb8a4c6386fe22fe127e168c5626149a83eef8f451c22758e",
+    "ghg_annual_reconstruction_ledger.csv": "995733bddf0cac0abf144624c668eaa999fa13005acd1a1db75e02bce89ef853"
+  },
+  "seed": 42,
+  "annual_rows": 146,
+  "year_range": [
+    1880,
+    2025
+  ],
+  "gap_years": [],
+  "co2_prehistory": "using 30 pre-1880 CO2 values (1850\u20131879) for rolling windows only",
+  "gas_values_masked": {},
+  "horizons_evaluated": [
+    0,
+    1,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30
+  ],
+  "config": {
+    "MIN_TRAIN": 25,
+    "TEST_BLOCK": 5,
+    "HOLDOUT_FRAC": 0.2,
+    "ALPHAS": [
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "IMPROVE_MARGIN": 0.02,
+    "MIN_TEST_FOR_VERDICT": 10,
+    "VERDICT_HORIZONS": [
+      1,
+      5,
+      10
+    ]
+  },
+  "compact_scenario_features": [
+    "co2_forcing"
+  ],
+  "compact_historical_features": [
+    "co2_forcing"
+  ],
+  "co2_std5_verdict": [
+    "hurt"
+  ],
+  "usable_rows_by_horizon": {
+    "0": 146,
+    "1": 145,
+    "5": 141,
+    "10": 136,
+    "15": 131,
+    "20": 126,
+    "25": 121,
+    "30": 116
+  },
+  "checks": "all assertions in section 11 passed"
+}

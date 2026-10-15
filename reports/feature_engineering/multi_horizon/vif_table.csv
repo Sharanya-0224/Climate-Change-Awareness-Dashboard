@@ -1,0 +1,14 @@
+feature,VIF,feature_set,n_rows,complete_year_start,complete_year_end
+co2,193457.70192495556,all_CO2_candidates,116,1880,1995
+ln_co2,inf,all_CO2_candidates,116,1880,1995
+co2_forcing,inf,all_CO2_candidates,116,1880,1995
+co2_roll5,171182.3984477101,all_CO2_candidates,116,1880,1995
+co2_roll10,23609.189374533973,all_CO2_candidates,116,1880,1995
+co2_growth_1y,44.48725740993705,all_CO2_candidates,116,1880,1995
+co2_growth_roll5,3915.492439149754,all_CO2_candidates,116,1880,1995
+co2_std5,392.481076268381,all_CO2_candidates,116,1880,1995
+co2_forcing_change_5y,3522.5759379154315,all_CO2_candidates,116,1880,1995
+co2_forcing,1670.2851167559206,base_plus_dynamics,116,1880,1995
+co2_roll10,1449.083352223136,base_plus_dynamics,116,1880,1995
+co2_growth_roll5,72.46265049171036,base_plus_dynamics,116,1880,1995
+co2_std5,74.49213735122676,base_plus_dynamics,116,1880,1995
