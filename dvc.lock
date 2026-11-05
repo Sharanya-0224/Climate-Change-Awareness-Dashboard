@@ -10,11 +10,29 @@ stages:
       nfiles: 14
     - path: src/data/build_dataset.py
       hash: md5
-      md5: b2db2a12046eabb86a584da30cd248fe
-      size: 8340
+      md5: 3688fb3f0f8a9ac5469ab238dba6218b
+      size: 12827
     outs:
     - path: data/processed
       hash: md5
-      md5: cce9d3abdc987131a0090490cd93b913.dir
-      size: 41492
-      nfiles: 3
+      md5: 0df35561cf11542570c2d12d2c4dac7b.dir
+      size: 529675
+      nfiles: 12
+  build_india_monthly:
+    cmd: python3 src/data/build_india_monthly.py
+    deps:
+    - path: data/raw/imd
+      hash: md5
+      md5: 3dd063265f55f04c0463d2c8a5a944c3.dir
+      size: 236100632
+      nfiles: 151
+    - path: src/data/build_india_monthly.py
+      hash: md5
+      md5: ffada4519729a42f374401b9f3a68460
+      size: 4859
+    outs:
+    - path: data/processed_india
+      hash: md5
+      md5: a50d7191420d3653e304c6bd6f0d402b.dir
+      size: 34909977
+      nfiles: 1

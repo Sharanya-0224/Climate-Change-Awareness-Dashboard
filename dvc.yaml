@@ -6,3 +6,10 @@ stages:
     - src/data/build_dataset.py
     outs:
     - data/processed
+  build_india_monthly:
+    cmd: python3 src/data/build_india_monthly.py
+    deps:
+    - data/raw/imd
+    - src/data/build_india_monthly.py
+    outs:
+    - data/processed_india
