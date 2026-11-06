@@ -13,3 +13,19 @@ stages:
     - src/data/build_india_monthly.py
     outs:
     - data/processed_india
+  build_country_panel:
+    cmd: python3 src/data/build_country_panel.py
+    deps:
+    - data/raw/emissions/owid-co2-data.csv
+    - src/data/build_country_panel.py
+    outs:
+    - data/processed_drivers/country_panel.csv
+  build_global_budget:
+    cmd: python3 src/data/build_global_budget.py
+    deps:
+    - data/raw/co2_annmean_mlo.txt
+    - data/raw/detrend.nino34.ascii.txt
+    - data/raw/emissions/Global_Carbon_Budget_2025_v1.0.xlsx
+    - src/data/build_global_budget.py
+    outs:
+    - data/processed_drivers/global_carbon_budget.csv

@@ -36,3 +36,43 @@ stages:
       md5: a50d7191420d3653e304c6bd6f0d402b.dir
       size: 34909977
       nfiles: 1
+  build_country_panel:
+    cmd: python3 src/data/build_country_panel.py
+    deps:
+    - path: data/raw/emissions/owid-co2-data.csv
+      hash: md5
+      md5: 87dcf6c39b36e81f62096022cf4b38c8
+      size: 33246106
+    - path: src/data/build_country_panel.py
+      hash: md5
+      md5: 215628f49434671eb8895d8b114a7148
+      size: 4469
+    outs:
+    - path: data/processed_drivers/country_panel.csv
+      hash: md5
+      md5: f659b59c44ded62244606205a3136fe7
+      size: 2536363
+  build_global_budget:
+    cmd: python3 src/data/build_global_budget.py
+    deps:
+    - path: data/raw/co2_annmean_mlo.txt
+      hash: md5
+      md5: c02cbac24ae8fc7d584e2c990b0bd5b7
+      size: 3696
+    - path: data/raw/detrend.nino34.ascii.txt
+      hash: md5
+      md5: 9fdf489dc6c1212c0c537cbdcee1f534
+      size: 30328
+    - path: data/raw/emissions/Global_Carbon_Budget_2025_v1.0.xlsx
+      hash: md5
+      md5: 8fce72b5ea636fca11c44ae503a8d31c
+      size: 480363
+    - path: src/data/build_global_budget.py
+      hash: md5
+      md5: dcccb733067ae2c4d3e3269f1b6286df
+      size: 4771
+    outs:
+    - path: data/processed_drivers/global_carbon_budget.csv
+      hash: md5
+      md5: ca0e264af6ea474c04ffd7f80e2010c3
+      size: 13730
