@@ -29,3 +29,28 @@ stages:
     - src/data/build_global_budget.py
     outs:
     - data/processed_drivers/global_carbon_budget.csv
+  features_m1:
+    cmd: python3 src/features/features_m1_emissions.py
+    deps:
+    - data/processed_drivers/country_panel.csv
+    - src/features/features_m1_emissions.py
+    outs:
+    - data/model_ready/m1_emissions.csv
+  features_m2:
+    cmd: python3 src/features/features_m2_co2.py
+    deps:
+    - data/processed_drivers/global_carbon_budget.csv
+    - src/features/features_m2_co2.py
+    outs:
+    - data/model_ready/m2_co2_growth.csv
+  features_m3:
+    cmd: python3 src/features/features_m3_india_temp.py
+    deps:
+    - data/processed_india/india_monthly_temperature.csv
+    - data/raw/co2_annmean_mlo.txt
+    - data/raw/detrend.nino34.ascii.txt
+    - data/raw/emissions/owid-co2-data.csv
+    - data/raw/smoothedco2.txt
+    - src/features/features_m3_india_temp.py
+    outs:
+    - data/model_ready/m3_india_temp.csv

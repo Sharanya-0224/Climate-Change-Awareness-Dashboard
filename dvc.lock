@@ -23,9 +23,9 @@ stages:
     deps:
     - path: data/raw/imd
       hash: md5
-      md5: 3dd063265f55f04c0463d2c8a5a944c3.dir
-      size: 236100632
-      nfiles: 151
+      md5: dcf9a6a74d4d2d697074b389ac52216c.dir
+      size: 236106780
+      nfiles: 152
     - path: src/data/build_india_monthly.py
       hash: md5
       md5: ffada4519729a42f374401b9f3a68460
@@ -76,3 +76,67 @@ stages:
       hash: md5
       md5: ca0e264af6ea474c04ffd7f80e2010c3
       size: 13730
+  features_m1:
+    cmd: python3 src/features/features_m1_emissions.py
+    deps:
+    - path: data/processed_drivers/country_panel.csv
+      hash: md5
+      md5: f659b59c44ded62244606205a3136fe7
+      size: 2536363
+    - path: src/features/features_m1_emissions.py
+      hash: md5
+      md5: 9c5b01f0b35c1c0811fc1b97114b5cd5
+      size: 2546
+    outs:
+    - path: data/model_ready/m1_emissions.csv
+      hash: md5
+      md5: 7bbcf88fcb1ae558f209a6bbd396ad1b
+      size: 924474
+  features_m2:
+    cmd: python3 src/features/features_m2_co2.py
+    deps:
+    - path: data/processed_drivers/global_carbon_budget.csv
+      hash: md5
+      md5: ca0e264af6ea474c04ffd7f80e2010c3
+      size: 13730
+    - path: src/features/features_m2_co2.py
+      hash: md5
+      md5: d85940f542fe494a9f2b4eb195c88b8d
+      size: 2314
+    outs:
+    - path: data/model_ready/m2_co2_growth.csv
+      hash: md5
+      md5: 1cc3a0494156c9b79f7e87bfa5d4c2a2
+      size: 6889
+  features_m3:
+    cmd: python3 src/features/features_m3_india_temp.py
+    deps:
+    - path: data/processed_india/india_monthly_temperature.csv
+      hash: md5
+      md5: 9696a2087ac406dbcbb2a7936a3479b3
+      size: 34909977
+    - path: data/raw/co2_annmean_mlo.txt
+      hash: md5
+      md5: c02cbac24ae8fc7d584e2c990b0bd5b7
+      size: 3696
+    - path: data/raw/detrend.nino34.ascii.txt
+      hash: md5
+      md5: 9fdf489dc6c1212c0c537cbdcee1f534
+      size: 30328
+    - path: data/raw/emissions/owid-co2-data.csv
+      hash: md5
+      md5: 87dcf6c39b36e81f62096022cf4b38c8
+      size: 33246106
+    - path: data/raw/smoothedco2.txt
+      hash: md5
+      md5: 12a1d1996b167558b12d88cda57a9801
+      size: 141899
+    - path: src/features/features_m3_india_temp.py
+      hash: md5
+      md5: 0921506ae07d799c819cd183c9279d81
+      size: 6629
+    outs:
+    - path: data/model_ready/m3_india_temp.csv
+      hash: md5
+      md5: df552674d2e4799f5a8f8d1c5dd01b16
+      size: 50557616
