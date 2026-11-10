@@ -233,3 +233,7 @@ precipitation/notebooks/step3_report.txt
 # Datasets are versioned with DVC, never with Git
 # (this also covers the 5 datasets that are not pushed to DVC)
 precipitation/data/**/*.csv
+
+# Local secrets and MLflow runs
+.env
+mlruns/

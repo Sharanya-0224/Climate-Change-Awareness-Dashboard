@@ -113,6 +113,7 @@ matplotlib-inline==0.2.2
 mdurl==0.1.2
 minify_html==0.18.1
 mistune==3.3.4
+mlflow==3.1.4
 multidict==6.7.1
 multimethod==1.12
 nbclient==0.10.2
@@ -171,6 +172,7 @@ rpds-py==0.27.1
 ruamel.yaml==0.19.1
 scipy==1.13.1
 scmrepo==3.6.2
+scikit-learn==1.6.1
 seaborn==0.13.2
 semver==3.0.4
 Send2Trash==2.1.0

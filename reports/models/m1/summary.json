@@ -1,0 +1,24 @@
+{
+  "champion": "growth_linear_5yr",
+  "reason": "No challenger passes the rule, so growth_linear_5yr stays. growth_gbm: -12.5 pts, wins 1/3 -> fails; growth_avg_linear_gbm: -2.1 pts, wins 1/3 -> fails; growth_linear_plus_gbm_fix: -11.1 pts, wins 1/3 -> fails",
+  "reference_model": "growth_linear_5yr",
+  "rule": "challenger needs average skill > reference + 5 points and must win at least 2 of 3 exams",
+  "average_skill": {
+    "growth_linear_1yr": 26.47754562508854,
+    "growth_linear_5yr": 25.997522002854613,
+    "growth_gbm": 13.48055622495013,
+    "growth_avg_linear_gbm": 23.858757018757853,
+    "growth_linear_plus_gbm_fix": 14.864833531167688
+  },
+  "descriptions": {
+    "baseline_stays_same": "Baseline. Each country's emissions stay at their last known level. Every model must beat this.",
+    "baseline_global_average": "Baseline (floor). One average emissions value for every country.",
+    "level_pop_income": "Predicts emissions directly from population and income per person (logs). Explains differences BETWEEN countries; does not use a country's own history.",
+    "level_pop_income_energy": "Same as level_pop_income plus energy used per unit of GDP. Scores high mostly because population x income x energy-per-GDP = total energy, and CO2 follows energy almost by accounting.",
+    "growth_linear_1yr": "Linear rule learned from 1-year changes: % change in emissions = a x % change in population + b x % change in income + drift x years. Predicts from each country's last known emissions.",
+    "growth_linear_5yr": "Same linear rule, learned from 5-year changes (less year-to-year noise). Reference model for the champion rule.",
+    "growth_gbm": "Gradient boosting (many small decision trees) learning how emissions change from population change, income change, number of years and the country's income level, so it can learn that rich and poor countries react differently.",
+    "growth_avg_linear_gbm": "Average of growth_linear_5yr and growth_gbm predictions.",
+    "growth_linear_plus_gbm_fix": "growth_linear_5yr first; then a small gradient-boosting model learns only the linear rule's typical mistakes and corrects them."
+  }
+}
