@@ -1,3 +1,20 @@
 # Add patterns of files dvc should ignore, which could improve
 # the performance. Learn more at
 # https://dvc.org/doc/user-guide/dvcignore
+
+# IMD raw and interim data: not tracked, not pushed
+precipitation/data/raw/imd/
+precipitation/data/interim/
+
+# Working report
+precipitation/notebooks/step3_report.txt
+
+# Config file that goes to GitHub instead
+precipitation/data/processed/feature_list.json
+
+# Datasets deliberately not pushed to DVC
+precipitation/data/processed/before_calendar_alignment.csv
+precipitation/data/processed/location_lookup.csv
+precipitation/data/processed/locations_with_missing_climate_values.csv
+precipitation/data/processed/missing_values_consolidated.csv
+precipitation/data/processed/trial_1951.csv

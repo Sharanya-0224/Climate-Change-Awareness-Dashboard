@@ -218,3 +218,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#notebooks
+baseline_linear_regression.ipynb
+
+# Local MLflow store (experiments are logged to DagsHub)
+mlflow.db
+
+# IMD raw/interim data and a working report: never committed
+precipitation/data/raw/imd/
+precipitation/data/interim/
+precipitation/notebooks/step3_report.txt
+
+# Datasets are versioned with DVC, never with Git
+# (this also covers the 5 datasets that are not pushed to DVC)
+precipitation/data/**/*.csv

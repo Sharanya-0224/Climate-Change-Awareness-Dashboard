@@ -1,0 +1,5 @@
+outs:
+- md5: 2513075bf074e72eda59755d302569dc
+  size: 39645
+  hash: md5
+  path: nino34.long.anom.csv

@@ -1,0 +1,5 @@
+outs:
+- md5: ea2f1397f3c1e65c3091eb910179a924
+  size: 39650
+  hash: md5
+  path: dmi.had.long.csv

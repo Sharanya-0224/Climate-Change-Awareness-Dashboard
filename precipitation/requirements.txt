@@ -1,0 +1,13 @@
+Cartopy==0.26.0
+dagshub==0.7.2
+dvc==3.67.1
+imdlib==0.4.0
+ipython==9.17.1
+matplotlib==3.9.4
+mlflow==3.17.1
+numpy==2.0.2
+pandas==2.3.3
+python-dotenv==1.2.4
+requests==2.34.2
+scikit-learn==1.9.1
+seaborn==0.13.2

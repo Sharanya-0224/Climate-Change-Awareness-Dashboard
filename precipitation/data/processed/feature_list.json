@@ -1,0 +1,32 @@
+{
+  "features": [
+    "lat",
+    "lon",
+    "month_sin",
+    "month_cos",
+    "rainfall_anomaly_lag_1",
+    "rainfall_anomaly_lag_2",
+    "rainfall_anomaly_lag_3",
+    "rainfall_anomaly_rolling_3m",
+    "rainfall_anomaly_rolling_6m",
+    "rainfall_anomaly_std_3m",
+    "temperature_anomaly_lag_1",
+    "temperature_anomaly_lag_2",
+    "temperature_anomaly_lag_3",
+    "temperature_anomaly_rolling_3m",
+    "nino34_lag_1",
+    "nino34_lag_2",
+    "nino34_lag_3",
+    "nino34_mean_3m",
+    "dmi_lag_1",
+    "dmi_lag_2",
+    "dmi_lag_3",
+    "dmi_mean_3m"
+  ],
+  "targets": [
+    "z_t+1",
+    "z_t+2",
+    "z_t+3",
+    "z_t+4"
+  ]
+}
