@@ -1,0 +1,54 @@
+{
+  "champion": "linear_nino",
+  "reason": "average skill 33.4% vs reference 25.4% (needs > +5 points) and wins 3 of 3 exams",
+  "emissions_unit": "GtC/yr (assumed, verify)",
+  "implied_airborne_share_if_gtc": 0.48360031152603555,
+  "coefficients": {
+    "linear_emissions": {
+      "total_emissions": 0.2276837624887173,
+      "intercept": -0.23260382914731004
+    },
+    "linear_nino": {
+      "total_emissions": 0.24014463333421052,
+      "nino34": 0.17072690223219644,
+      "nino34_lag1": 0.2306725223974289,
+      "intercept": -0.33076453626637425
+    },
+    "linear_nino_volcano": {
+      "total_emissions": 0.22057989800853628,
+      "nino34": 0.26512020726550173,
+      "nino34_lag1": 0.2896245047896817,
+      "volcano_flag": -0.6445284070994739,
+      "intercept": -0.11463489075965372
+    },
+    "share_no_intercept": {
+      "total_emissions": 0.19715566407412655,
+      "intercept": 0.0
+    }
+  },
+  "avg_skill": {
+    "same_as_last_year": 0.0,
+    "average_growth": -0.5915155376144073,
+    "linear_emissions": 0.25391036545086126,
+    "linear_nino": 0.33358951967627987,
+    "linear_nino_volcano": 0.3687662208088274,
+    "ridge_nino": 0.3094678106183682,
+    "gbm_nino": -0.06406712535792831,
+    "share_no_intercept": 0.24143978025457682
+  },
+  "exams": [
+    [
+      1990,
+      2002
+    ],
+    [
+      2000,
+      2012
+    ],
+    [
+      2009,
+      2024
+    ]
+  ],
+  "note": "volcano years are from memory: verify before reporting"
+}
