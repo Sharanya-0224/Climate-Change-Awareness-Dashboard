@@ -25,6 +25,11 @@ def _load(name):
 
 
 @pytest.fixture(scope="session")
+def m1():
+    return _load("m1_emissions.csv").sort_values(["country", "year"]).reset_index(drop=True)
+
+
+@pytest.fixture(scope="session")
 def m2():
     return _load("m2_co2_growth.csv").sort_values("year").reset_index(drop=True)
 

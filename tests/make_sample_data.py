@@ -11,6 +11,7 @@ without credentials, and the full Model 3 table is 50 MB. The tests check the
 CODE (column rules, lag rules, model behaviour) on a small, honest subset of the
 real data. The full data was already checked by training.
 
+Model 1: ten countries, every year (about 580 rows).
 Model 2: the whole table (65 rows, tiny).
 Model 3: six squares spread across India, every month 1951-2024 (about 5,000 rows).
 """
@@ -20,6 +21,13 @@ import pandas as pd
 
 OUT = Path("tests/sample_data")
 OUT.mkdir(parents=True, exist_ok=True)
+
+m1 = pd.read_csv("data/model_ready/m1_emissions.csv")
+countries = ["India", "China", "United States", "Germany", "Brazil", "Nigeria", "Japan",
+             "Indonesia", "South Africa", "Bangladesh"]
+m1_sample = m1[m1.country.isin(countries)]
+m1_sample.to_csv(OUT / "m1_emissions.csv", index=False)
+print(f"m1: {len(m1_sample)} rows, {m1_sample.country.nunique()} countries -> {OUT / 'm1_emissions.csv'}")
 
 m2 = pd.read_csv("data/model_ready/m2_co2_growth.csv")
 m2.to_csv(OUT / "m2_co2_growth.csv", index=False)

@@ -9,8 +9,26 @@ import numpy as np
 import pandas as pd
 
 from climate_models.m3_model import INPUT_COLS, TARGET, co2_forcing_from_ppm
+from climate_models.m1_model import PANEL_COLS
 
 M2_COLS = ["year", "growth_ppm", "total_emissions", "nino34", "nino34_lag1", "volcano_flag"]
+
+
+# ====================================================================== Model 1
+def test_m1_has_required_columns(m1):
+    assert set(PANEL_COLS) <= set(m1.columns)
+
+
+def test_m1_no_missing_values(m1):
+    assert m1[PANEL_COLS].isna().sum().sum() == 0
+
+
+def test_m1_one_row_per_country_year(m1):
+    assert not m1.duplicated(["country", "year"]).any()
+
+
+def test_m1_logs_are_finite(m1):
+    assert np.isfinite(m1[PANEL_COLS[2:]].to_numpy()).all(), "log of zero or negative value"
 
 
 # ====================================================================== Model 2

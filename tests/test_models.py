@@ -11,10 +11,42 @@ import pytest
 from sklearn.linear_model import LinearRegression
 
 from climate_models.m3_model import M3Model, MODELS, INPUT_COLS, TARGET
+from climate_models.m1_model import M1GrowthModel, exam_table, PREDICT_COLS
 from quality import gates as G
 
 M2_FEATURES = ["total_emissions", "nino34", "nino34_lag1"]   # the Model 2 champion's inputs
 FAST_M3 = [m for m in MODELS if m != "hybrid_regional_gbm"]  # trees are slow; tested separately
+
+
+# ====================================================================== Model 1
+def test_m1_rule_has_sensible_signs(m1):
+    model = M1GrowthModel(step=5).fit(m1)
+    assert model.a_pop_ > 0, "more people must mean more emissions"
+    assert model.b_income_ > 0, "more income must mean more emissions"
+
+
+def test_m1_no_change_means_last_known_level(m1):
+    """Zero change in population and income over zero years -> emissions stay at the last level."""
+    model = M1GrowthModel(step=5).fit(m1)
+    x = pd.DataFrame({"log_co2_last": [5.0], "d_pop": [0.0], "d_income": [0.0], "span": [0.0]})
+    assert model.predict(x)[0] == pytest.approx(5.0)
+
+
+def test_m1_more_income_growth_means_more_emissions(m1):
+    model = M1GrowthModel(step=5).fit(m1)
+    base = {"log_co2_last": [5.0], "d_pop": [0.1], "span": [10.0]}
+    low = model.predict(pd.DataFrame({**base, "d_income": [0.1]}))[0]
+    high = model.predict(pd.DataFrame({**base, "d_income": [0.5]}))[0]
+    assert high > low
+
+
+def test_m1_exam_table_only_uses_past_as_starting_point(m1):
+    """Every test row must start from a year at or before the cutoff: span = years since then."""
+    t = exam_table(m1, cutoff=2010)
+    assert (t["year"] > 2010).all() and (t["span"] >= 1).all()
+    assert (t["year"] - t["span"] <= 2010).all()
+    model = M1GrowthModel(step=5).fit(m1[m1.year <= 2010])
+    assert np.isfinite(model.predict(t[PREDICT_COLS])).all()
 
 
 # ====================================================================== Model 2
@@ -106,6 +138,16 @@ def test_gate_hit_rate_share():
     assert g["passed"] and "50%" in g["detail"]
     g = G.hit_rate(actual=[0, 0, 0, 0], pred=[0.5, 0.5, 0.5, 0.1], tolerance=0.2, unit="x")
     assert not g["passed"]
+
+
+def test_gate_win_rate():
+    assert G.win_rate([0, 0], [0.1, 0.1], [0.5, 0.5], "base")["passed"]
+    assert not G.win_rate([0, 0], [0.5, 0.5], [0.1, 0.1], "base")["passed"]
+
+
+def test_gate_reproduces_exam():
+    assert G.reproduces_exam(28.0, 28.3)["passed"]
+    assert not G.reproduces_exam(28.0, 30.0)["passed"]
 
 
 def test_gate_beats_baseline_threshold():

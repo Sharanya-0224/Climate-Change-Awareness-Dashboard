@@ -3,7 +3,8 @@ register_champions.py  (put it at src/models/register_champions.py)
 
 Step 1 of Phase 2: turn the chosen champions into production models.
 
-For Model 2 (emissions -> CO2 rise) and Model 3 (CO2 -> India temperature):
+For Model 1 (drivers -> country emissions), Model 2 (emissions -> CO2 rise) and
+Model 3 (CO2 -> India temperature):
   1. Read which model the pre-fixed champion rule chose (reports/models/*/summary.json).
   2. Refit that model on years <= cutoff and score the unseen years, for the gates that
      need honest test numbers (hit rate).
@@ -15,10 +16,11 @@ For Model 2 (emissions -> CO2 rise) and Model 3 (CO2 -> India temperature):
      If any gate fails: log the gate results and stop with an error (nothing is registered).
 
 Registry names (what the API will load):
+  models:/m1_country_emissions@champion
   models:/m2_co2_growth@champion
   models:/m3_india_temperature@champion
 
-Run from the repo root:  python3 src/models/register_champions.py [m2|m3|all]
+Run from the repo root:  python3 src/models/register_champions.py [m1|m2|m3|all]
 """
 import warnings
 
@@ -42,12 +44,14 @@ SRC = Path(__file__).resolve().parents[1]          # .../src
 sys.path.insert(0, str(SRC))                        # climate_models, quality
 sys.path.insert(0, str(SRC / "models"))             # the Model 2 training script
 from climate_models.m3_model import M3Model, MODELS as M3_MODELS, INPUT_COLS, TARGET as M3_TARGET
+from climate_models import m1_model as m1
 from quality import gates as G
 import train_m2_co2 as m2             # reuses Model 2's model definitions, nothing is retrained there
 
 REGISTRY_DIR = Path("reports/registry")
-REGISTERED_NAMES = {"m2": "m2_co2_growth", "m3": "m3_india_temperature"}
-EXPERIMENTS = {"m2": "m2_emissions_to_co2", "m3": "m3_india_temperature"}
+REGISTERED_NAMES = {"m1": "m1_country_emissions", "m2": "m2_co2_growth", "m3": "m3_india_temperature"}
+EXPERIMENTS = {"m1": "m1_drivers_to_emissions", "m2": "m2_emissions_to_co2",
+               "m3": "m3_india_temperature"}
 
 
 def git_commit():
@@ -60,6 +64,52 @@ def git_commit():
 
 def md5(path):
     return hashlib.md5(Path(path).read_bytes()).hexdigest()
+
+
+# ====================================================================== Model 1
+def prepare_m1():
+    data_path = Path("data/model_ready/m1_emissions.csv")
+    df = pd.read_csv(data_path)
+    summary = json.loads(Path("reports/models/m1/summary.json").read_text())
+    champ = summary["champion"]
+    steps = {"growth_linear_5yr": 5, "growth_linear_1yr": 1}
+    if champ not in steps:
+        raise SystemExit(f"Model 1 champion '{champ}' is not a linear growth rule; "
+                         f"the wrapper in climate_models/m1_model.py only covers {list(steps)}")
+    step = steps[champ]
+    res = pd.read_csv("reports/models/m1/comparison.csv")
+    cutoff = int(res["exam"].max())
+    logged = res[(res.model == champ) & (res.exam == cutoff)].iloc[0]
+
+    # honest numbers: learn the rule from years <= cutoff, predict the next 12 years
+    table = m1.exam_table(df, cutoff)
+    exam_model = m1.M1GrowthModel(step=step).fit(df[df.year <= cutoff])
+    pred = exam_model.predict(table)
+    rmse = lambda a, b: float(np.sqrt(np.mean((np.asarray(a) - np.asarray(b)) ** 2)))
+    skill = (1 - rmse(table["actual"], pred) / rmse(table["actual"], table["stays_same"])) * 100
+
+    # production model: learn the rule from all years
+    model = m1.M1GrowthModel(step=step).fit(df)
+    all_pred = model.predict(table)
+
+    checks = [
+        G.champion_rule(summary["champion"], champ, summary["reason"]),
+        G.reproduces_exam(skill, float(logged["skill_vs_stays_same_pct"])),
+        G.beats_baseline(skill, "emissions stay the same"),
+        G.win_rate(table["actual"], pred, table["stays_same"], "stays the same"),
+        G.no_missing_outputs(all_pred),
+        G.physical_range(all_pred, df[m1.TARGET], G.RANGE_MARGIN_M1_LOG, "log(Mt CO2)"),
+        G.deterministic(model, table),
+    ]
+    print(f"Rule learned from all years: a (population) = {model.a_pop_:.3f}, "
+          f"b (income) = {model.b_income_:.3f}, drift = {model.drift_per_year_ * 100:+.2f}% per year "
+          f"({model.n_pairs_:,} five-year pairs)" if step == 5 else "")
+    info = {"champion": champ, "features": m1.PREDICT_COLS, "rows_trained": len(df),
+            "years": f"{df.year.min()}-{df.year.max()}", "final_exam_skill_pct": float(skill),
+            "final_exam_rule_a_population": model.a_pop_, "final_exam_rule_b_income": model.b_income_,
+            "data_path": str(data_path), "input_example": table[m1.PREDICT_COLS].head(3),
+            "code_paths": [str(SRC / "climate_models")]}
+    return model, checks, info
 
 
 # ====================================================================== Model 2
@@ -194,7 +244,7 @@ def register(key, model, checks, info):
 def main():
     load_dotenv(dotenv_path=Path(".env"))
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
-    todo = {"m2": prepare_m2, "m3": prepare_m3}
+    todo = {"m1": prepare_m1, "m2": prepare_m2, "m3": prepare_m3}
     if which != "all":
         todo = {which: todo[which]}
     ok = True

@@ -30,6 +30,15 @@ TOLERANCE_M2_PPM = 0.3     # yearly CO2 rise within 0.3 ppm (final-exam MAE was 
 # a bug or an impossible input, not a real climate value.
 RANGE_MARGIN_M3_DEGC = 5.0  # observed anomalies span about -4.3 to +5.4 degC
 RANGE_MARGIN_M2_PPM = 1.5   # observed yearly rises are a few ppm; 1.5 ppm beyond is generous
+RANGE_MARGIN_M1_LOG = 1.0   # 1.0 in log terms = a factor of about 2.7 beyond any country ever observed
+
+# Model 1 win rate: the model must be closer to the truth than "emissions stay the same"
+# in at least half of the unseen country-years. Needs no hand-picked tolerance.
+MIN_WIN_SHARE = 0.5
+
+# The registry code must reproduce the exam score from training, otherwise the wrapper
+# is not the same model. 0.5 points allows for rounding only.
+REPRODUCE_TOLERANCE_PTS = 0.5
 
 
 # ---------------------------------------------------------------- gates
@@ -88,6 +97,23 @@ def direction_hit_rate(actual, pred):
     actual, pred = np.asarray(actual, float), np.asarray(pred, float)
     share = float(np.mean(np.sign(actual) == np.sign(pred)))
     return _gate("direction_hit_rate_info", True, f"{share:.0%} correct direction", "info only")
+
+
+def win_rate(actual, pred, baseline_pred, baseline_name, min_share=MIN_WIN_SHARE):
+    """Share of unseen points where the model is closer to the truth than the baseline."""
+    actual, pred, base = (np.asarray(v, float) for v in (actual, pred, baseline_pred))
+    share = float(np.mean(np.abs(actual - pred) < np.abs(actual - base)))
+    return _gate("win_rate", share >= min_share,
+                 f"closer than '{baseline_name}' in {share:.0%} of {len(actual)} unseen points",
+                 f">= {min_share:.0%}")
+
+
+def reproduces_exam(skill_now, skill_logged, tolerance=REPRODUCE_TOLERANCE_PTS):
+    """The model rebuilt here must give the same exam score as the training session."""
+    diff = abs(skill_now - skill_logged)
+    return _gate("reproduces_exam", diff <= tolerance,
+                 f"skill here {skill_now:+.2f}% vs training session {skill_logged:+.2f}% "
+                 f"(difference {diff:.2f} points)", f"<= {tolerance} points")
 
 
 def hidden_regions(skill_pct, min_skill=MIN_SKILL_PCT):
