@@ -1,0 +1,6 @@
+outs:
+- md5: 1182af700973cf902ac6ee388b33e43a.dir
+  size: 18467634
+  nfiles: 4
+  hash: md5
+  path: map

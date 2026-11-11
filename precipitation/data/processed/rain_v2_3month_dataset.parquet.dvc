@@ -1,0 +1,5 @@
+outs:
+- md5: 2ac04ec87e6702976f652d3dfabc5de2
+  size: 270339960
+  hash: md5
+  path: rain_v2_3month_dataset.parquet

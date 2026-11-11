@@ -1,0 +1,5 @@
+outs:
+- md5: a982f0d3a85c8a49a6fcad2cd3cc5477
+  size: 269986
+  hash: md5
+  path: point_region_v2.csv

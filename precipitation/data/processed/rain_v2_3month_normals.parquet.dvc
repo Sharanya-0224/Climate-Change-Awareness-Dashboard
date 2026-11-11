@@ -1,0 +1,5 @@
+outs:
+- md5: bca3fe7b1b3b6abc0a731b9bc1fe3172
+  size: 2371469
+  hash: md5
+  path: rain_v2_3month_normals.parquet
