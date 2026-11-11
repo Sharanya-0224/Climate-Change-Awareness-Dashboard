@@ -1,0 +1,9 @@
+gate,passed,threshold,detail
+champion_rule,True,equal,"rule picked 'linear_co2', registering 'linear_co2'. No challenger passes the rule, so linear_co2 stays. linear_cum_emissions: +0.1 pts, wins 2/3 -> fails; linear_co2_region"
+beats_baseline,True,> 0.0%,skill vs every month is normal on unseen years = +12.53%
+hit_rate,True,>= 50%,79% of 14 unseen India-yearly values within 0.2 degC
+direction_hit_rate_info,True,info only,100% correct direction
+no_missing_outputs,True,0,0 bad values in 303607 predictions
+physical_range,True,"[-9.31, 10.44]","0 predictions outside [-9.31, 10.44] degC; predicted range [-0.39, 1.04]"
+deterministic,True,identical,identical on repeat
+hidden_regions,True,> 0.0%,skill on hidden regions = +12.42%

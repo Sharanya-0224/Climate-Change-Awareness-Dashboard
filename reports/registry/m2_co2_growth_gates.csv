@@ -1,0 +1,8 @@
+gate,passed,threshold,detail
+champion_rule,True,equal,"rule picked 'linear_nino', registering 'linear_nino'. average skill 33.4% vs reference 25.4% (needs > +5 points) and wins 3 of 3 exams"
+beats_baseline,True,> 0.0%,skill vs same as last year on unseen years = +48.00%
+hit_rate,True,>= 50%,73% of 15 unseen years within 0.3 ppm/yr
+direction_hit_rate_info,True,info only,71% correct direction
+no_missing_outputs,True,0,0 bad values in 65 predictions
+physical_range,True,"[-1.01, 5.23]","0 predictions outside [-1.01, 5.23] ppm/yr; predicted range [0.70, 2.88]"
+deterministic,True,identical,identical on repeat
