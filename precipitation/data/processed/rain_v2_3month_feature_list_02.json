@@ -1,0 +1,55 @@
+{
+  "inputs": [
+    "lat",
+    "lon",
+    "month_sin",
+    "month_cos",
+    "region_central",
+    "region_east_northeast",
+    "region_northwest",
+    "region_south_peninsula",
+    "rain_z_t",
+    "rain_z_lag1",
+    "rain_z_roll3",
+    "rain_z_roll6",
+    "nino34_t",
+    "nino34_lag1",
+    "nino34_lag2",
+    "nino34_lag3",
+    "nino34_mean3",
+    "nino34_chg3",
+    "dmi_t",
+    "dmi_lag1",
+    "dmi_lag2",
+    "dmi_lag3",
+    "dmi_mean3"
+  ],
+  "target": "target_z",
+  "target_extra": [
+    "target_mm",
+    "target_mean",
+    "target_sd",
+    "target_anom_mm"
+  ],
+  "id_columns": [
+    "key",
+    "state",
+    "region",
+    "year",
+    "month",
+    "split"
+  ],
+  "params": {
+    "sd_floor_mm": 5.0,
+    "train_end": 2002,
+    "val_end": 2013,
+    "target_window": "months t+1..t+3",
+    "region_rule": "IMD four regions by state; points outside every polygon go to the nearest state",
+    "normal_years": "1901-2002",
+    "points": 4927,
+    "zero_annual_total_rule": "mask all 12 months",
+    "minimum_valid_train_years": 50,
+    "excluded_points": 37,
+    "cleaned_monthly_file": "monthly_rain_v2_02.parquet"
+  }
+}

@@ -11,6 +11,8 @@ precipitation/notebooks/step3_report.txt
 
 # Config file that goes to GitHub instead
 precipitation/data/processed/feature_list.json
+precipitation/data/processed/rain_v2_3month_feature_list.json
+precipitation/data/processed/rain_v2_3month_feature_list_02.json
 
 # Datasets deliberately not pushed to DVC
 precipitation/data/processed/before_calendar_alignment.csv

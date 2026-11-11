@@ -11,3 +11,5 @@ python-dotenv==1.2.4
 requests==2.34.2
 scikit-learn==1.9.1
 seaborn==0.13.2
+lightgbm==4.7.0
+geopandas==1.2.0
