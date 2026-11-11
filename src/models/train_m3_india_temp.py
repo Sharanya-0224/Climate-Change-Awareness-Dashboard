@@ -56,6 +56,7 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -69,40 +70,25 @@ import mlflow.sklearn
 import numpy as np
 import pandas as pd
 from dotenv import load_dotenv
-from sklearn.base import BaseEstimator, RegressorMixin
-from sklearn.ensemble import HistGradientBoostingRegressor
-from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+SRC = Path(__file__).resolve().parents[1]      # .../src, works from any working directory
+sys.path.insert(0, str(SRC))                   # the model class lives in src/climate_models, shared with the API
+from climate_models.m3_model import (M3Model, MODELS, INPUT_COLS, TARGET, SEED,
+                                     per_square_line, decimal_year)
 
 # ======================================================================== settings
 DATA = Path("data/model_ready/m3_india_temp.csv")
 REPORT_DIR = Path("reports/models/m3")
 EXPERIMENT = "m3_india_temperature"
-TARGET = "tmean_anom"
 EXAMS = [(1990, 2002), (2000, 2012), (2010, 2024)]   # (last training year, last test year)
 FINAL_CUTOFF = EXAMS[-1][0]
 REFERENCE = "linear_co2"
 CHALLENGER_MARGIN = 5.0
-SEED = 42
 N_REGION_FOLDS = 5
 BLOCK_DEG = 5
 
-NINO = ["nino_lag1", "nino_lag3", "nino_lag6", "nino_prev12_mean"]
-PLACE_SEASON = ["lat", "lon", "month_sin", "month_cos"]
-GBM_COLS = NINO + PLACE_SEASON
-INPUT_COLS = ["cell_id", "year", "month"] + PLACE_SEASON + NINO + ["co2_forcing", "cum_emissions_gtco2"]
 
-MODELS = {
-    "baseline_zero": dict(kind="zero"),
-    "baseline_own_trend": dict(kind="own_trend"),
-    "natural_only": dict(kind="linear", co2_col=None),
-    "linear_co2": dict(kind="linear", co2_col="co2_forcing"),
-    "linear_cum_emissions": dict(kind="linear", co2_col="cum_emissions_gtco2"),
-    "linear_co2_regional": dict(kind="linear", co2_col="co2_forcing", regional=True),
-    "linear_co2_per_square": dict(kind="linear", co2_col="co2_forcing", per_square=True),
-    "hybrid_regional_gbm": dict(kind="linear", co2_col="co2_forcing", regional=True,
-                                residual_gbm=True),
-}
 ELIGIBLE = ["linear_cum_emissions", "linear_co2_regional", "linear_co2_per_square",
             "hybrid_regional_gbm"]
 # Models that do not need a square's own history can be tested on hidden regions.
@@ -130,92 +116,6 @@ DESCRIPTIONS = {
                            "learns the leftover patterns from El Nino, place and season. CO2 stays "
                            "in the linear part because trees cannot go beyond training CO2 levels.",
 }
-
-
-# ======================================================================== the model
-def per_square_line(cells, x, y):
-    """Straight line y = intercept + slope * x fitted separately for each square."""
-    d = pd.DataFrame({"cell": np.asarray(cells), "x": np.asarray(x, float),
-                      "y": np.asarray(y, float)})
-    g = d.groupby("cell")
-    mx, my = g["x"].mean(), g["y"].mean()
-    dx = d["x"] - d["cell"].map(mx)
-    dy = d["y"] - d["cell"].map(my)
-    sxy = (dx * dy).groupby(d["cell"]).sum()
-    sxx = (dx * dx).groupby(d["cell"]).sum()
-    slope = (sxy / sxx.where(sxx > 0)).fillna(0.0)
-    return pd.DataFrame({"slope": slope, "intercept": my - slope * mx})
-
-
-def apply_square_line(table, cells, x):
-    cells = pd.Series(np.asarray(cells))
-    a = cells.map(table["intercept"]).fillna(0.0).to_numpy()
-    b = cells.map(table["slope"]).fillna(0.0).to_numpy()
-    return a + b * np.asarray(x, float)
-
-
-def decimal_year(X):
-    return X["year"].to_numpy() + (X["month"].to_numpy() - 0.5) / 12
-
-
-class M3Model(BaseEstimator, RegressorMixin):
-    """One class for every Model 3 variant, so each saved model takes the same input
-    table (INPUT_COLS) and works the same way in the API later."""
-
-    def __init__(self, kind="linear", co2_col="co2_forcing", regional=False,
-                 per_square=False, residual_gbm=False, seed=SEED):
-        self.kind = kind
-        self.co2_col = co2_col
-        self.regional = regional
-        self.per_square = per_square
-        self.residual_gbm = residual_gbm
-        self.seed = seed
-
-    def _design(self, X):
-        cols = {c: X[c].to_numpy(float) for c in NINO + PLACE_SEASON}
-        if self.co2_col:
-            c = X[self.co2_col].to_numpy(float)
-            cols[self.co2_col] = c
-            if self.regional:
-                la = (X["lat"].to_numpy(float) - 23.0) / 10.0
-                lo = (X["lon"].to_numpy(float) - 80.0) / 10.0
-                cols.update({"co2_x_lat": c * la, "co2_x_lon": c * lo, "co2_x_lat_lon": c * la * lo,
-                             "co2_x_lat2": c * la ** 2, "co2_x_lon2": c * lo ** 2,
-                             "co2_x_month_sin": c * X["month_sin"].to_numpy(float),
-                             "co2_x_month_cos": c * X["month_cos"].to_numpy(float)})
-        return pd.DataFrame(cols, index=X.index)
-
-    def fit(self, X, y):
-        y = np.asarray(y, float)
-        if self.kind == "zero":
-            return self
-        if self.kind == "own_trend":
-            self.square_table_ = per_square_line(X["cell_id"], decimal_year(X), y)
-            return self
-        D = self._design(X)
-        self.feature_names_ = list(D.columns)
-        self.linear_ = LinearRegression().fit(D, y)
-        resid = y - self.linear_.predict(D)
-        if self.per_square:
-            self.square_table_ = per_square_line(X["cell_id"], X[self.co2_col], resid)
-            resid = resid - apply_square_line(self.square_table_, X["cell_id"], X[self.co2_col])
-        if self.residual_gbm:
-            self.gbm_ = HistGradientBoostingRegressor(
-                max_iter=300, learning_rate=0.05, max_leaf_nodes=31, min_samples_leaf=200,
-                l2_regularization=1.0, random_state=self.seed).fit(X[GBM_COLS], resid)
-        return self
-
-    def predict(self, X):
-        if self.kind == "zero":
-            return np.zeros(len(X))
-        if self.kind == "own_trend":
-            return apply_square_line(self.square_table_, X["cell_id"], decimal_year(X))
-        p = self.linear_.predict(self._design(X))
-        if self.per_square:
-            p = p + apply_square_line(self.square_table_, X["cell_id"], X[self.co2_col])
-        if self.residual_gbm:
-            p = p + self.gbm_.predict(X[GBM_COLS])
-        return p
 
 
 # ======================================================================== helpers
@@ -332,7 +232,8 @@ def run_model(name, df, session, results, ctx):
             ax.legend()
             fig.tight_layout(); fig.savefig(f"{d}/india_yearly.png", dpi=110); plt.close(fig)
             mlflow.log_artifacts(d, artifact_path="results")
-        mlflow.sklearn.log_model(final, name="model", input_example=df[INPUT_COLS].head(3))
+        mlflow.sklearn.log_model(final, name="model", input_example=df[INPUT_COLS].head(3),
+                                 code_paths=[str(SRC / "climate_models")])  # ship the class with the model
         ctx["final_models"][name] = final
         print(f"  {name:24s} skill vs zero by exam: "
               + ", ".join(f"{r['test_years']}: {r['skill_vs_zero_pct']:+.1f}%" for r in mine)
