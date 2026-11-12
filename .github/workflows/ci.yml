@@ -114,3 +114,24 @@ jobs:
           curl -sf -X POST "$RENDER_DEPLOY_HOOK"
           echo
           echo "Deploy requested"
+
+      - name: Wait for the live site to be healthy
+        env:
+          LIVE_URL: https://climate-awareness-api.onrender.com
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "No deploy was requested, nothing to check"
+            exit 0
+          fi
+          sleep 60      # give Render time to pull the new image and start it
+          for i in $(seq 1 30); do
+            if curl -sf --max-time 20 "$LIVE_URL/health" | grep -q '"status":"ok"'; then
+              echo "Live site is healthy: $LIVE_URL"
+              curl -sf --max-time 20 "$LIVE_URL/health"
+              echo
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Live site did not report ok within the time limit"
+          exit 1
