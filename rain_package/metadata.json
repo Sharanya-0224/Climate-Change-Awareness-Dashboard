@@ -1,6 +1,6 @@
 {
   "registered_name": "rain_v2_3month_lgbm",
-  "registered_version": null,
+  "registered_version": 1,
   "run_id": "f36994a1067f4d86bec47a77ec95ecf0",
   "test_run_id": "1e5bb8f8dc77475594576d2b49a980ea",
   "lightgbm_version": "4.7.0",
@@ -30,5 +30,7 @@
   "dataset_md5": "8ea8f7473d958fb34548ab9e66dbff97",
   "git_commit": "ef4e843",
   "n_points": 4927,
-  "created": "2026-11-12"
+  "created": "2026-11-12",
+  "registered_alias": "champion",
+  "registration_run_id": "36a5e10420524447b0baba45eb172718"
 }
