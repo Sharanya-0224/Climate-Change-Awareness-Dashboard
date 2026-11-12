@@ -235,5 +235,9 @@ precipitation/artifacts
 # Datasets are versioned with DVC, never with Git
 # (this also covers the 5 datasets that are not pushed to DVC)
 precipitation/data/**/*.csv
-precipitation/data/**/*.parquetmodel_store/
+precipitation/data/**/*.parquet
+model_store/
 venv312/
+
+#dont need this corresponds to lgbm model version 4.6.0
+precipitation/inference/model_package
