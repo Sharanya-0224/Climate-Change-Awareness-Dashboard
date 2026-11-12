@@ -1,0 +1,5 @@
+outs:
+- md5: ad5b77ab861f002acc858dac0bfdaaa4
+  size: 37684844
+  hash: md5
+  path: rain_v2_3month_val_predictions.parquet

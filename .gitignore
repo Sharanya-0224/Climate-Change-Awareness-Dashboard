@@ -230,6 +230,7 @@ precipitation/data/raw/imd/
 precipitation/data/map/
 precipitation/data/interim/
 precipitation/notebooks/step3_report.txt
+precipitation/artifacts
 
 # Datasets are versioned with DVC, never with Git
 # (this also covers the 5 datasets that are not pushed to DVC)
