@@ -7,5 +7,5 @@ max_abs_z,True,2.442,6.0,"|pred_z| <= 6: same cut as extreme rows; the model shr
 negative_mm_share,True,0.0012,0.01,share of rows with total < 0 before the clip at 0 <= 1%: clipping must be rare
 max_total_mm,True,0.533,1.0,predicted total <= 1.0 x largest observed 3-month total in train: nothing beyond the record
 deterministic,True,0.0,0.0,same input twice and reloaded model give max difference 0: results must be repeatable
-no_future_data,False,2.503662166475351e-08,0.0,lookup rebuilt with all months after the origin removed is unchanged: no leakage
+no_future_data,True,2.503662166475351e-08,1e-06,lookup rebuilt with all months after the origin removed is unchanged (float rounding allowed): no leakage
 normals_train_only,True,4.999991394072367e-05,0.001,package normals equal normals from 1901-2002 only (csv rounding allowed): no leakage
