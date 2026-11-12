@@ -14,9 +14,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app/src \
     MODEL_DIR=/app/model_store \
-    MODEL_REGISTRY_FALLBACK=0
+    MODEL_REGISTRY_FALLBACK=0 \
+    RAIN_MODEL_DIR=/app/model_store/rain
 
 WORKDIR /app
+
+# LightGBM needs the OpenMP system library (libgomp), which the slim image leaves out
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Libraries first: this layer is cached and only rebuilt when requirements-api.txt changes
 COPY requirements-api.txt .
@@ -28,6 +34,9 @@ COPY src/climate_models src/climate_models
 
 # The champion models, downloaded from the registry before the build
 COPY model_store model_store
+
+# The rain model package, which lives in the repo (model file, normals, lookup, metadata)
+COPY rain_package model_store/rain
 
 # Fail the build if the models do not load and predict with these library versions
 RUN python -m api.smoke_test

@@ -6,4 +6,7 @@ pydantic==2.13.5
 numpy==2.0.2
 pandas==2.3.3
 scikit-learn==1.6.1
+scipy==1.13.1
+# Rain model: a LightGBM booster file, saved with this version (rain_package/metadata.json)
+lightgbm==4.7.0
 PyYAML==6.0.3

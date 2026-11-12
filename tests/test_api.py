@@ -32,6 +32,8 @@ def client(m1, m2, m3):
     model_store.set_model("m1", M1GrowthModel(step=5).fit(m1))
     model_store.set_model("m2", LinearRegression().fit(m2[service.M2_FEATURES], m2["growth_ppm"]))
     model_store.set_model("m3", M3Model(**MODELS["linear_co2"]).fit(m3[INPUT_COLS], m3[TARGET]))
+    from api import rain_router
+    assert rain_router.load_rain_model(), "rain_package/ should load from the repo root"
     yield TestClient(app)
     model_store.clear()
 
@@ -41,7 +43,15 @@ def test_health_reports_all_models(client):
     assert r.status_code == 200
     body = r.json()
     assert body["status"] == "ok"
-    assert set(body["models"]) == {"m1", "m2", "m3"}
+    assert set(body["models"]) == {"m1", "m2", "m3", "rain"}
+    assert body["models"]["rain"]["source"] == "rain package"
+
+
+def test_rain_routes_are_mounted_in_the_main_app(client):
+    r = client.get("/rain/forecast", params={"lat": 26.9, "lon": 75.8})
+    assert r.status_code == 200
+    assert r.json()["cell_id"] == "26.5_75.5"      # same 1-degree square rule as the temperature model
+    assert client.get("/rain/model-info").status_code == 200
 
 
 def test_india_temperature_returns_a_number_and_the_model_version(client):

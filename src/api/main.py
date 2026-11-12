@@ -27,6 +27,17 @@ from fastapi.responses import RedirectResponse
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))   # .../src, so climate_models imports
 
 from api import model_store, service
+
+# The rain model is a separate part of the app. If its code cannot even be imported
+# (for example LightGBM is not installed), the three climate endpoints must still work,
+# so the import is guarded. The Docker build is strict instead: its smoke test fails
+# when the rain model is missing, so an image without it can never be built.
+try:
+    from api import rain_router as rain
+    RAIN_IMPORT_ERROR = None
+except Exception as e:
+    rain = None
+    RAIN_IMPORT_ERROR = f"{e.__class__.__name__}: {e}"
 from api.schemas import (CO2GrowthRequest, CO2GrowthResponse, CountryEmissionsRequest,
                          CountryEmissionsResponse, HealthResponse, IndiaTemperatureRequest,
                          IndiaTemperatureResponse)
@@ -37,6 +48,13 @@ async def lifespan(app):
     # Runs once when the server starts: load the champion models.
     if os.getenv("API_SKIP_MODEL_LOAD") != "1":
         model_store.load_all()
+        if rain is None:
+            print(f"could NOT import the rain router: {RAIN_IMPORT_ERROR}")
+        elif rain.load_rain_model():        # never raises; returns True or False
+            status = rain.rain_status()
+            print(f"loaded {status['name']} v{status['version']} from rain package")
+        else:
+            print("could NOT load the rain model (its routes will answer 503)")
     yield
 
 
@@ -59,6 +77,21 @@ app.add_middleware(
 )
 
 
+# Rain routes: /rain/forecast, /rain/predict, /rain/model-info
+if rain is not None:
+    app.include_router(rain.router, prefix="/rain")
+
+
+def _rain_info():
+    """The rain model in the same shape as the other models in /health."""
+    if rain is None:
+        return {"name": "rain_v2_3month_lgbm", "version": None, "source": "not loaded"}
+    status = rain.rain_status()
+    version = None if status["version"] is None else str(status["version"])
+    return {"name": status["name"], "version": version,
+            "source": "rain package" if status["loaded"] else "not loaded"}
+
+
 def _model(key):
     """The loaded model, or error 503 (service unavailable) if it is not loaded."""
     try:
@@ -79,7 +112,9 @@ def root():
 
 @app.get("/health", response_model=HealthResponse)
 def health():
-    return {"status": "ok" if model_store.all_loaded() else "degraded", "models": model_store.info()}
+    models = {**model_store.info(), "rain": _rain_info()}
+    all_ok = model_store.all_loaded() and models["rain"]["source"] != "not loaded"
+    return {"status": "ok" if all_ok else "degraded", "models": models}
 
 
 @app.post("/predict/india_temperature", response_model=IndiaTemperatureResponse)
