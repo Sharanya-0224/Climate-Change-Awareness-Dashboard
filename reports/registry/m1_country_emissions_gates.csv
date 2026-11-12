@@ -1,0 +1,8 @@
+gate,passed,threshold,detail
+champion_rule,True,equal,"rule picked 'growth_linear_5yr', registering 'growth_linear_5yr'. No challenger passes the rule, so growth_linear_5yr stays. growth_gbm: -12.5 pts, wins 1/3 -> fails; growth_avg_linear_g"
+reproduces_exam,True,<= 0.5 points,skill here +28.18% vs training session +28.18% (difference 0.00 points)
+beats_baseline,True,> 0.0%,skill vs emissions stay the same on unseen years = +28.18%
+win_rate,True,>= 50%,closer than 'stays the same' in 58% of 1968 unseen points
+no_missing_outputs,True,0,0 bad values in 1968 predictions
+physical_range,True,"[-4.82, 10.37]","0 predictions outside [-4.82, 10.37] log(Mt CO2); predicted range [-2.21, 9.47]"
+deterministic,True,identical,identical on repeat
