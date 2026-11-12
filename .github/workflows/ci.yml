@@ -35,6 +35,7 @@ jobs:
       MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }}
       MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
       MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+      IMAGE: sara23chhabra/climate-api
     steps:
       - name: Get the code
         uses: actions/checkout@v4
@@ -78,3 +79,38 @@ jobs:
           echo
           curl -sf "http://127.0.0.1:8000/rain/forecast?lat=26.9&lon=75.8"
           echo
+
+      # ---- CD part 1: publish the image that just passed every check ----
+      - name: Log in to Docker Hub
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push the tested image to Docker Hub
+        if: github.event_name == 'push'
+        run: |
+          docker tag climate-api:latest $IMAGE:latest
+          docker tag climate-api:latest $IMAGE:${{ github.sha }}
+          docker push $IMAGE:latest
+          docker push $IMAGE:${{ github.sha }}
+
+  # ---- CD part 2: tell the hosting platform to run the new image ----
+  deploy:
+    name: Deploy to Render
+    needs: docker
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+    steps:
+      - name: Ask Render to pull and run the new image
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "RENDER_DEPLOY_HOOK is not set yet: image was pushed, deploy skipped"
+            exit 0
+          fi
+          curl -sf -X POST "$RENDER_DEPLOY_HOOK"
+          echo
+          echo "Deploy requested"

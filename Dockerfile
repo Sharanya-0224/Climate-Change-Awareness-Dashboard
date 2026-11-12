@@ -15,7 +15,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH=/app/src \
     MODEL_DIR=/app/model_store \
     MODEL_REGISTRY_FALLBACK=0 \
-    RAIN_MODEL_DIR=/app/model_store/rain
+    RAIN_MODEL_DIR=/app/model_store/rain \
+    PORT=8000 \
+    OMP_NUM_THREADS=1 \
+    OPENBLAS_NUM_THREADS=1
 
 WORKDIR /app
 
@@ -49,6 +52,7 @@ EXPOSE 8000
 
 # Docker marks the container healthy only while /health answers
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-    CMD python -c "import sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4).status == 200 else 1)"
+    CMD python -c "import os, sys, urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:' + os.environ.get('PORT', '8000') + '/health', timeout=4).status == 200 else 1)"
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Hosting platforms choose the port and pass it in PORT; locally it stays 8000
+CMD ["sh", "-c", "exec uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
