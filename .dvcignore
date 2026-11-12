@@ -4,7 +4,10 @@
 
 # IMD raw and interim data: not tracked, not pushed
 precipitation/data/raw/imd/
-precipitation/data/interim/
+precipitation/data/interim/*
+!precipitation/data/interim/monthly_rain_v2_02.parquet
+!precipitation/data/interim/imd_rainfall_2025.csv
+!precipitation/data/interim/*.dvc
 
 # Working report
 precipitation/notebooks/step3_report.txt

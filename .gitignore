@@ -228,7 +228,9 @@ mlflow.db
 # IMD raw/interim data and a working report: never committed
 precipitation/data/raw/imd/
 precipitation/data/map/
-precipitation/data/interim/
+precipitation/data/interim/*
+!precipitation/data/interim/*.dvc
+!precipitation/data/interim/.gitignore
 precipitation/notebooks/step3_report.txt
 precipitation/artifacts
 

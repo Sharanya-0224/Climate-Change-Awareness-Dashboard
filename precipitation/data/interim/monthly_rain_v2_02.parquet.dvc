@@ -1,0 +1,5 @@
+outs:
+- md5: 730ce85347c3070d28ba0b6fc7fe5003
+  size: 30287717
+  hash: md5
+  path: monthly_rain_v2_02.parquet

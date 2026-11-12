@@ -1,0 +1,5 @@
+outs:
+- md5: d6f147a21b85c7a5cbcdf05c8f589ac7
+  size: 50292424
+  hash: md5
+  path: imd_rainfall_2025.csv
