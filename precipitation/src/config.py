@@ -2,6 +2,7 @@
 import os
 import subprocess
 from pathlib import Path
+import hashlib
 
 # Folders
 SRC_DIR = Path(__file__).resolve().parent          # precipitation/src
@@ -75,3 +76,17 @@ def setup_mlflow():
     mlflow.set_tracking_uri(MLFLOW_URI)
     mlflow.set_system_metrics_sampling_interval(1)
     return mlflow
+
+
+SERVE_PACKAGE_DIR = REPO_ROOT / "rain_package"          # served package (refit model)
+EVAL_MODEL_PATH = PACKAGE_DIR / "model.txt"              # evaluated 1901-2002 model
+EVAL_RUN_ID = "f36994a1067f4d86bec47a77ec95ecf0"         # rain_v2_lgbm_final_b
+TEST_RUN_ID = "1e5bb8f8dc77475594576d2b49a980ea"         # rain_v2_lgbm_final_test
+
+
+def file_md5(path):
+    h = hashlib.md5()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
