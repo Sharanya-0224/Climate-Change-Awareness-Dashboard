@@ -21,6 +21,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))   # .../src, so climate_models imports
 
@@ -46,6 +48,17 @@ app = FastAPI(
 )
 
 
+# CORS: lets a dashboard running in a browser on another address call this API.
+# ALLOWED_ORIGINS is a comma-separated list; "*" (any site) is fine for a public,
+# read-only API with no logins. Set it to the dashboard's address to tighten it.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[o.strip() for o in os.getenv("ALLOWED_ORIGINS", "*").split(",")],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
+
+
 def _model(key):
     """The loaded model, or error 503 (service unavailable) if it is not loaded."""
     try:
@@ -56,6 +69,12 @@ def _model(key):
 
 def _served(info):
     return {"served_model": info["name"], "served_version": info["version"]}
+
+
+@app.get("/", include_in_schema=False)
+def root():
+    """Opening the main address sends you to the interactive docs page."""
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/health", response_model=HealthResponse)

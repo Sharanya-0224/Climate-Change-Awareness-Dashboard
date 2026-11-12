@@ -1,0 +1,19 @@
+# Keep the build small and keep secrets out of the image.
+.git
+.dvc
+.env
+.env.*
+venv
+venv312
+__pycache__
+*.pyc
+.pytest_cache
+.DS_Store
+data
+notebooks
+reports
+models
+precipitation
+tests
+*.ipynb
+*.zip

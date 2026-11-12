@@ -1,0 +1,9 @@
+# What the running API container needs, and nothing else.
+# Versions match requirements-312.txt, so models saved in training load here.
+fastapi==0.128.8
+uvicorn[standard]==0.39.0
+pydantic==2.13.5
+numpy==2.0.2
+pandas==2.3.3
+scikit-learn==1.6.1
+PyYAML==6.0.3
