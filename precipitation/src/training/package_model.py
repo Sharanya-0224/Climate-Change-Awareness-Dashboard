@@ -107,7 +107,7 @@ def main():
             rows.append({"group_type": gtype, "group": g,
                          "val_skill": mse_skill(val["target_z"].values[k], p_val[k])})
     skill = pd.DataFrame(rows)
-    test_res = pd.read_json(config.PRECIP_DIR / "artifacts" / "test_results_lgbm.json")
+    test_res = pd.read_json(config.TEST_RESULTS_PATH)
     test_res = test_res.rename(columns={"skill": "test_skill", "lower_95": "test_lower_95",
                                         "upper_95": "test_upper_95"})
     skill = skill.merge(test_res[["group", "test_skill", "test_lower_95", "test_upper_95"]],

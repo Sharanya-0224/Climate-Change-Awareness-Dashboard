@@ -123,7 +123,7 @@ def run_all(pkg_dir):
                            filters=[("year", ">=", config.TEST_START), ("year", "<=", config.TEST_END)])
     p_test = tl.predict_z(booster, test, features)
     skill = mse_skill(test["target_z"], p_test)
-    res = pd.read_json(config.PRECIP_DIR / "artifacts" / "test_results_lgbm.json").set_index("group")
+    res = pd.read_json(config.TEST_RESULTS_PATH).set_index("group")
     print("test skill now:", skill, "| 08 file:", res.loc["overall", "skill"])
     assert abs(skill - res.loc["overall", "skill"]) < 1e-5, "test skill differs from 08 results"
     rows.append(gate_beats_climatology(skill, res.loc["overall", "lower_95"]))

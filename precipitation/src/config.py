@@ -93,3 +93,4 @@ def file_md5(path):
 
 PERSISTENCE_PATH = REFERENCE_DIR / "persistence_coefficients.json"
 GATES_DIR = REPO_ROOT / "reports" / "registry"
+TEST_RESULTS_PATH = PRECIP_DIR / "inference" / "test_results_lgbm.json"
