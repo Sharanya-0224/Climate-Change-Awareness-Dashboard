@@ -235,4 +235,4 @@ precipitation/artifacts
 # Datasets are versioned with DVC, never with Git
 # (this also covers the 5 datasets that are not pushed to DVC)
 precipitation/data/**/*.csv
-precipitation/data/**/*.parquet
+precipitation/data/**/*.parquetmodel_store/
