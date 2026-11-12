@@ -236,3 +236,4 @@ precipitation/artifacts
 # (this also covers the 5 datasets that are not pushed to DVC)
 precipitation/data/**/*.csv
 precipitation/data/**/*.parquetmodel_store/
+venv312/
