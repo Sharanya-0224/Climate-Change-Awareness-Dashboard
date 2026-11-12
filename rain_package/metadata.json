@@ -1,0 +1,34 @@
+{
+  "registered_name": "rain_v2_3month_lgbm",
+  "registered_version": null,
+  "run_id": "f36994a1067f4d86bec47a77ec95ecf0",
+  "test_run_id": "1e5bb8f8dc77475594576d2b49a980ea",
+  "lightgbm_version": "4.7.0",
+  "training_years": "1901-2002",
+  "target": "3-month rainfall total for months t+1..t+3, as z = (total - normal mean) / normal sd",
+  "units": {
+    "pred_z": "standard deviations",
+    "pred_anom_mm": "mm",
+    "pred_total_mm": "mm"
+  },
+  "normals": "per point and origin month, train years 1901-2002, sd floor 5 mm",
+  "season_definition": "by origin month t",
+  "grid": "0.25 degree IMD points; cell_id = 1-degree square, floor(value) + 0.5",
+  "lookup_origins": [
+    "2025-10",
+    "2025-11",
+    "2025-12"
+  ],
+  "val_skill": 0.0301,
+  "test_skill": 0.0216,
+  "test_range_95": [
+    0.0035,
+    0.0391
+  ],
+  "has_skill_rule": "val skill > 0 and test 95% range lower bound > 0 (set after the test; a reporting flag, not used for tuning)",
+  "refit_note": "refit on 1901-2025 tried (run caed54cc...), not served: corr 0.758 < 0.8 rule",
+  "dataset_md5": "8ea8f7473d958fb34548ab9e66dbff97",
+  "git_commit": "ef4e843",
+  "n_points": 4927,
+  "created": "2026-11-12"
+}

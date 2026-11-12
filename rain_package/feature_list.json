@@ -1,0 +1,29 @@
+{
+  "features": [
+    "lat",
+    "lon",
+    "month_sin",
+    "month_cos",
+    "region_central",
+    "region_east_northeast",
+    "region_northwest",
+    "region_south_peninsula",
+    "rain_z_t",
+    "rain_z_lag1",
+    "rain_z_roll3",
+    "rain_z_roll6",
+    "nino34_t",
+    "nino34_lag1",
+    "nino34_lag2",
+    "nino34_lag3",
+    "nino34_mean3",
+    "nino34_chg3",
+    "dmi_t",
+    "dmi_lag1",
+    "dmi_lag2",
+    "dmi_lag3",
+    "dmi_mean3"
+  ],
+  "n_features": 23,
+  "target": "target_z"
+}

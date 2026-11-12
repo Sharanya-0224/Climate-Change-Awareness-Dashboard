@@ -90,3 +90,6 @@ def file_md5(path):
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+PERSISTENCE_PATH = REFERENCE_DIR / "persistence_coefficients.json"
+GATES_DIR = REPO_ROOT / "reports" / "registry"
