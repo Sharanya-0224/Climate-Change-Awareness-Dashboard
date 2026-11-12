@@ -28,7 +28,7 @@ THRESHOLDS = {
     "negative_mm_share": (0.01, "share of rows with total < 0 before the clip at 0 <= 1%: clipping must be rare"),
     "max_total_mm": (1.0, "predicted total <= 1.0 x largest observed 3-month total in train: nothing beyond the record"),
     "deterministic": (0.0, "same input twice and reloaded model give max difference 0: results must be repeatable"),
-    "no_future_data": (0.0, "lookup rebuilt with all months after the origin removed is unchanged: no leakage"),
+    "no_future_data": (1e-6, "lookup rebuilt with all months after the origin removed is unchanged (float rounding allowed): no leakage"),
     "normals_train_only": (1e-3, "package normals equal normals from 1901-2002 only (csv rounding allowed): no leakage"),
     "feature_order": (0, "model feature names equal feature_list.json: wrong order gives silent wrong answers"),
 }
